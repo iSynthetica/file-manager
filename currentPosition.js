@@ -1,7 +1,8 @@
 import os from 'os';
 import path from 'path';
 
-let currentPath = os.homedir();
+// let currentPath = os.homedir();
+let currentPath = '/Users/apple/Downloads';
 
 export const setCurrentDir = (path) => {
     currentPath = path;

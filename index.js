@@ -1,6 +1,5 @@
 // npm run start -- --username=your_username
 import process from 'node:process';
-import { getCurrentDir, up } from './currentPosition.js';
 import { App } from './app.js';
 
 import { validateArgs } from './helpers.js';
@@ -10,7 +9,6 @@ const app = new App(username);
 
 process.stdin.on('data', async data => {
     let message = data.toString().trim();
-
     if (message === '.exit') process.exit(1);
 
     try {
@@ -19,7 +17,7 @@ process.stdin.on('data', async data => {
         console.log(error.message);
         process.stdout.write(`Invalid input\n\n`);
     }
-    
+
     app.currentDirMessage();
 });
 

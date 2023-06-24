@@ -1,12 +1,14 @@
 import { FileSystem } from './fileSystem.js';
-import {OperatingSystem} from './operatingSystem.js';
+import { OperatingSystem } from './operatingSystem.js';
 import { getCurrentDir } from './currentPosition.js';
+import { Hash } from './hash.js';
 
 export class App {
     constructor(username) {
         this.username = username;
         this.fs = new FileSystem();
         this.os = new OperatingSystem();
+        this.hash = new Hash();
     }
 
     async run({ controller, command, args = [] }) {
