@@ -27,4 +27,13 @@ process.on('exit', () => {
     app.goodByeMessage();
 });
 
+process.stdout.on('error', err => {
+    console.error('stdout encountered an error:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    process.stdout.write(`${error.message}\n`);
+    process.stdout.write(`\x1b[31mInvalid input\x1b[0m\n\n`);
+});
+
 app.welcomMessage();

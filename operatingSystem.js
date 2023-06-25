@@ -21,7 +21,7 @@ export class OperatingSystem {
     }
     async cpus() {
         let cpus = os.cpus();
-        console.log('Total CPUs:', cpus.length);
+        console.log('Overall amount of CPUs:', cpus.length);
 
         for (let cpu of cpus) {
             console.log(`  -${cpu.model}`);

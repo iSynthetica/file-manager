@@ -45,11 +45,11 @@ const validCommands = {
     },
     compress: {
         args: 2,
-        controller: 'zip',
+        controller: 'zlib',
     },
     decompress: {
         args: 2,
-        controller: 'zip',
+        controller: 'zlib',
     },
 };
 

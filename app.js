@@ -2,6 +2,7 @@ import { FileSystem } from './fileSystem.js';
 import { OperatingSystem } from './operatingSystem.js';
 import { getCurrentDir } from './currentPosition.js';
 import { Hash } from './hash.js';
+import { ZLib } from './zlib.js';
 
 export class App {
     constructor(username) {
@@ -9,6 +10,7 @@ export class App {
         this.fs = new FileSystem();
         this.os = new OperatingSystem();
         this.hash = new Hash();
+        this.zlib = new ZLib();
     }
 
     async run({ controller, command, args = [] }) {

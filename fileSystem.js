@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getCurrentDir, setCurrentDir, getAbsPath } from './currentPosition.js';
+import { getCurrentDir, setCurrentDir, getAbsPath, validatePath } from './currentPosition.js';
 
 export class FileSystem {
     constructor() {}
@@ -16,12 +16,7 @@ export class FileSystem {
     }
 
     async cd([path_string]) {
-        let abs_path = getAbsPath(path_string);
-        let pathStat = await fs.promises.stat(abs_path);
-
-        if (!pathStat.isDirectory()) {
-            throw new Error(`ENOENT: no such file or directory, stat '${abs_path}'`);
-        }
+        let abs_path = await validatePath(getAbsPath(path_string));
         setCurrentDir(abs_path);
     }
 
