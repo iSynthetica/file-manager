@@ -76,3 +76,10 @@ export const validateArgs = input => {
 
     return { controller: validCommands[command].controller, command, args };
 };
+
+export const getUsername = () => {
+    const args = process.argv.slice(2);
+    const usernameArg = args.find(arg => arg.startsWith('--username='));
+
+    return usernameArg ? usernameArg.split('=')[1] : 'Guest';
+}

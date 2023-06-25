@@ -20,7 +20,11 @@ export class App {
         this.currentDirMessage();
     }
 
+    goodByeMessage() {
+        process.stdout.write(`\nThank you for using File Manager, ${this.username}, goodbye!\n`);
+    }
+
     currentDirMessage() {
-        process.stdout.write(`You are currently in \x1b[7m ${getCurrentDir()} \x1b[0m >> `);
+        process.stdout.write(`You are currently in \x1b[7m\x1b[1m ${getCurrentDir()} \x1b[0m \x1b[32m>>\x1b[0m `);
     }
 }

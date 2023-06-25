@@ -1,11 +1,9 @@
 // npm run start -- --username=your_username
-import process from 'node:process';
+import process from 'process';
 import { App } from './app.js';
+import { validateArgs, getUsername } from './helpers.js';
 
-import { validateArgs } from './helpers.js';
-
-const username = process.env.npm_config_username ? process.env.npm_config_username : 'Guest';
-const app = new App(username);
+const app = new App(getUsername());
 
 process.stdin.on('data', async data => {
     let message = data.toString().trim();
@@ -14,19 +12,19 @@ process.stdin.on('data', async data => {
     try {
         await app.run(validateArgs(message));
     } catch (error) {
-        console.log(error.message);
-        process.stdout.write(`Invalid input\n\n`);
+        process.stdout.write(`${error.message}\n`);
+        process.stdout.write(`\x1b[31mInvalid input\x1b[0m\n\n`);
     }
 
     app.currentDirMessage();
 });
 
-process.on('SIGINT', code => {
+process.on('SIGINT', () => {
     process.exit(1);
 });
 
-process.on('exit', code => {
-    process.stdout.write(`\nThank you for using File Manager, ${username}, goodbye!`);
+process.on('exit', () => {
+    app.goodByeMessage();
 });
 
 app.welcomMessage();

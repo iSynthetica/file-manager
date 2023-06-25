@@ -12,11 +12,6 @@ export const getCurrentDir = () => {
     return currentPath;
 }
 
-export const up = () => {
-    let currentPathArray = currentPath.split(path.sep);
-
-    if (currentPathArray.length > 1) {
-        currentPathArray.pop();
-        currentPath = currentPathArray.length === 1 ? '/' : currentPathArray.join(path.sep);
-    }
+export const getAbsPath = (path_string) => {
+    return path.isAbsolute(path_string) ? path_string : path.join(getCurrentDir(), path_string);
 }

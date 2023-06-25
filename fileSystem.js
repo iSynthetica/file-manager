@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getCurrentDir, setCurrentDir } from './currentPosition.js';
+import { getCurrentDir, setCurrentDir, getAbsPath } from './currentPosition.js';
 
 export class FileSystem {
     constructor() {}
@@ -16,7 +16,7 @@ export class FileSystem {
     }
 
     async cd([path_string]) {
-        let abs_path = FileSystem.getAbsPath(path_string);
+        let abs_path = getAbsPath(path_string);
         let pathStat = await fs.promises.stat(abs_path);
 
         if (!pathStat.isDirectory()) {
@@ -26,7 +26,6 @@ export class FileSystem {
     }
 
     async ls() {
-        console.log('path', getCurrentDir());
         let dirContent = await fs.promises.readdir(getCurrentDir(), { withFileTypes: true });
 
         let dirs = [];
@@ -50,7 +49,35 @@ export class FileSystem {
         }
     }
 
-    static getAbsPath(path_string) {
-        return path.isAbsolute(path_string) ? path_string : path.join(getCurrentDir(), path_string);
+    async cat([path_to_file]) {
+        const fullPath = getAbsPath(path_to_file);
+        let content = await FileSystem.getFileContent(fullPath);
+
+        console.log(content);
+    }
+
+    async add([new_file_name]) {
+        const fullPath = getAbsPath(new_file_name);
+        await fs.promises.writeFile(fullPath, '', { flag: 'ax+' });
+
+        console.log(`File ${fullPath} created`);
+    }
+
+    async rm([path_to_file]) {
+        const fullPath = getAbsPath(path_to_file);
+        await fs.promises.rm(fullPath);
+
+        console.log(`File ${fullPath} removed`);
+    }
+
+    static async getFileContent(path_to_file) {
+        const readStream = fs.createReadStream(path_to_file);
+        let fileContent = '';
+
+        for await (const chunk of readStream) {
+            fileContent += chunk.toString();
+        }
+
+        return fileContent;
     }
 }
