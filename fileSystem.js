@@ -65,6 +65,50 @@ export class FileSystem {
         console.log(`File ${fullPath} removed`);
     }
 
+    // + rn bookDecompressed.txt bookDecompressedRenamed.txt
+    // - rn софія bookDecompressedRenamed.txt
+    async rn([path_to_file, new_filename]) {
+        path_to_file = await validatePath(getAbsPath(path_to_file), { isFile: true });
+        let path_to_new_file = path.join(path.dirname(path_to_file), new_filename);
+        await fs.promises.rename(path_to_file, path_to_new_file);
+
+        console.log(`File ${path_to_file} renamed to ${new_filename}`);
+    }
+
+    // + mv /Users/apple/Downloads/fileToMove.txt /Users/apple/Downloads/diagrams
+    async mv([path_to_file, path_to_new_directory]) {
+        const { new_filename } = await this.__cpMv(path_to_file, path_to_new_directory, true);
+        console.log(`File ${new_filename} moved to ${path_to_new_directory}`);
+    }
+
+    // + cp /Users/apple/Downloads/fileToCopy.txt /Users/apple/Downloads/diagrams
+    async cp([path_to_file, path_to_new_directory]) {
+        const { new_filename } = await this.__cpMv(path_to_file, path_to_new_directory);
+        console.log(`File ${new_filename} copied to ${path_to_new_directory}`);
+    }
+
+    async __cpMv(path_to_file, path_to_new_directory, move = false) {
+        path_to_file = await validatePath(getAbsPath(path_to_file), { isFile: true });
+        path_to_new_directory = await validatePath(getAbsPath(path_to_new_directory), { isDir: true });
+        let new_filename = path.parse(path_to_file).base;
+        let path_to_new_file = path.join(path_to_new_directory, new_filename);
+
+        await new Promise((resolve, reject) => {
+            const readStream = fs.createReadStream(path_to_file);
+            const writeStream = fs.createWriteStream(path_to_new_file);
+
+            const stream = readStream.pipe(writeStream);
+            stream.on('finish', () => resolve(true));
+            stream.on('error', error => reject(error));
+            readStream.on('error', error => reject(error));
+            writeStream.on('error', error => reject(error));
+        });
+
+        if (move) await fs.promises.unlink(path_to_file);
+
+        return { new_filename };
+    }
+
     static async getFileContent(path_to_file) {
         const readStream = fs.createReadStream(path_to_file);
         let fileContent = '';

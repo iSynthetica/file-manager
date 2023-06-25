@@ -1,6 +1,6 @@
 import fs from 'fs';
 import zlib from 'zlib';
-import { getCurrentDir, setCurrentDir, getAbsPath, validatePath } from './currentPosition.js';
+import { getAbsPath, validatePath } from './currentPosition.js';
 
 export class ZLib {
     constructor() {}
