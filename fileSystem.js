@@ -16,7 +16,7 @@ export class FileSystem {
     }
 
     async cd([path_string]) {
-        let abs_path = await validatePath(getAbsPath(path_string));
+        let abs_path = await validatePath(getAbsPath(path_string), { exists: true, isDir: true });
         setCurrentDir(abs_path);
     }
 
