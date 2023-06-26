@@ -65,8 +65,6 @@ export class FileSystem {
         console.log(`File ${fullPath} removed`);
     }
 
-    // + rn bookDecompressed.txt bookDecompressedRenamed.txt
-    // - rn софія bookDecompressedRenamed.txt
     async rn([path_to_file, new_filename]) {
         path_to_file = await validatePath(getAbsPath(path_to_file), { isFile: true });
         let path_to_new_file = path.join(path.dirname(path_to_file), new_filename);
@@ -75,13 +73,11 @@ export class FileSystem {
         console.log(`File ${path_to_file} renamed to ${new_filename}`);
     }
 
-    // + mv /Users/apple/Downloads/fileToMove.txt /Users/apple/Downloads/diagrams
     async mv([path_to_file, path_to_new_directory]) {
         const { new_filename } = await this.__cpMv(path_to_file, path_to_new_directory, true);
         console.log(`File ${new_filename} moved to ${path_to_new_directory}`);
     }
 
-    // + cp /Users/apple/Downloads/fileToCopy.txt /Users/apple/Downloads/diagrams
     async cp([path_to_file, path_to_new_directory]) {
         const { new_filename } = await this.__cpMv(path_to_file, path_to_new_directory);
         console.log(`File ${new_filename} copied to ${path_to_new_directory}`);

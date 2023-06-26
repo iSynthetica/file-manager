@@ -12,7 +12,6 @@ process.stdin.on('data', async data => {
     try {
         await app.run(validateArgs(message));
     } catch (error) {
-        process.stdout.write(`${error.message}\n`);
         process.stdout.write(`\x1b[31mInvalid input\x1b[0m\n\n`);
     }
 

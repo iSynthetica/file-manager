@@ -10,12 +10,6 @@ export class OperatingSystem {
         await this[arg.replace('--', '')]();
     }
 
-    // os --EOL
-    // os --cpus
-    // os --homedir
-    // os --username
-    // os --architecture
-
     async EOL() {
         process.stdout.write(os.EOL);
     }

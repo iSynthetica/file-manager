@@ -5,9 +5,6 @@ import { getAbsPath, validatePath } from './currentPosition.js';
 export class Hash {
     constructor() {}
 
-    // + hash book.txt
-    // - hash zsh_history
-    // - hash Sites
     async hash([path_to_file]) {
         let abs_path = await validatePath(getAbsPath(path_to_file), { exists: true, isFile: true });
 
